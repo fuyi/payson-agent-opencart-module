@@ -11,13 +11,28 @@ Therefore, payson agent comes to rescue. it doesn't require payer to login and p
 This module is implemented based on payson agent payment process. refer to document: https://www.payson.se/integration/agentintegration (Swedish)
 
 Compatible with:
+============================
 1.5.3
 
 Features:
+============================
 1) Payson Guarantee (Paysongaranti) Escrow service support
 2) Multiple payment options:  credit card only, internet bank only, deposit in payson account, and all of them.
 3) English and Swedish supported
 4) Supported Currencies: Swedish Krona (SEK)
 
 
-Note: Currency 'SEK' is required for this payment method to be available, otherwise, it won't show up in the payment options step
+Requirements
+============================
+Currency 'SEK' is required for this payment method to be available, otherwise, it won't show up in the payment options step
+
+
+Author
+============================
+fu yi (yvesfu@gmail.com)
+
+
+Liscense
+============================
+Apache License
+Copyright @2013 fuyi

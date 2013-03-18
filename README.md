@@ -10,9 +10,14 @@ Therefore, payson agent comes to rescue. it doesn't require payer to login and p
 
 This module is implemented based on payson agent payment process. refer to document: https://www.payson.se/integration/agentintegration (Swedish)
 
-Compatible with:
+Tested against opencart version:
 ============================
-1.5.3
+1.5.0
+1.5.1
+1.5.2
+1.5.3       ok
+1.5.4
+1.5.5
 
 Features:
 ============================

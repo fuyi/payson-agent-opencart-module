@@ -1,10 +1,9 @@
 <?php
 class ControllerPaymentPaysonagent extends Controller {
-    	/**
+	/**
 	 * action to create and submit payson payment form
 	 */
 	protected function index() {
-
 		$this->data['button_confirm'] = $this->language->get('button_confirm');
 		$order_id = $this->session->data['order_id'];
 		
@@ -12,30 +11,30 @@ class ControllerPaymentPaysonagent extends Controller {
 		
 		$order= $this->model_checkout_order->getOrder($order_id);
 
-	        	// set payson parameters 
-	    	$AgentID=$this->config->get('paysonagent_agent_id');
-	    	$Key=$this->config->get('paysonagent_md5_key');
-	    	$SellerEmail =		$this->config->get('paysonagent_seller_email');
-	    	$GuaranteeOffered = $this->config->get('paysonagent_guarantee_offered');
-	    	$PaymentMethod  =  $this->config->get('paysonagent_payment_method');
+		// set payson parameters 
+		$AgentID=$this->config->get('paysonagent_agent_id');
+		$Key=$this->config->get('paysonagent_md5_key');
+		$SellerEmail =		$this->config->get('paysonagent_seller_email');
+		$GuaranteeOffered = $this->config->get('paysonagent_guarantee_offered');
+		$PaymentMethod  =  $this->config->get('paysonagent_payment_method');
 
-	    	$OkUrl =	$this->url->link('payment/paysonagent/callback');
-	    	$CancelUrl = $this->url->link('checkout/checkout');
+		$OkUrl =	$this->url->link('payment/paysonagent/callback');
+		$CancelUrl = $this->url->link('checkout/checkout');
 
-	    	$RefNr = $this->encryption->encrypt($order_id); //Order number
-	    	$Description =		$order['comment'];
-	    	$BuyerEmail	=		$order['email'];
-	    	
-	    	$currency_code = $order['currency_code'];
+		$RefNr = $this->encrypt($order_id); //Order number
+		$Description =		$order['comment'];
+		$BuyerEmail	=		$order['email'];
+
+		$currency_code = $order['currency_code'];
 		$amount = $this->currency->format($order['total'], $order['currency_code'], $order['currency_value'], false);
 		// convert cost to SEK,  get round value. currency SEK must be installed
-	    	$Cost = round($this->currency->convert($amount, $currency_code, 'SEK'));
+		$Cost = round($this->currency->convert($amount, $currency_code, 'SEK'));
 
-	    	// $ExtraCost = $this->session->data['shipping_method']['cost'];
-	    	$ExtraCost = 0;
+		// $ExtraCost = $this->sess        ion->data['shipping_method']['cost'];
+		$ExtraCost = 0;
 
-	    	$MD5string = $SellerEmail . ":" . $Cost . ":" . $ExtraCost . ":" . $OkUrl . ":" . $GuaranteeOffered . $Key;
-	    	$MD5Hash = md5($MD5string);
+		$MD5string = $SellerEmail .         ":" . $Cost . ":" . $ExtraCost . ":" . $OkUrl . ":" . $GuaranteeOffered . $Key;
+		$MD5Hash = md5($MD5string);
         
 		$this->data['action'] = 'https://www.payson.se/merchant/default.aspx';
 		$this->data['BuyerEmail'] = $BuyerEmail;
@@ -60,7 +59,7 @@ class ControllerPaymentPaysonagent extends Controller {
 		$this->render(); 
 	}
 	
-    	/**
+	 /**
 	 * callback function initiated by payson when payment is successful
 	 */	
 	public function callback() {
@@ -77,7 +76,7 @@ class ControllerPaymentPaysonagent extends Controller {
 
 		if($MD5String === $MD5Hash)
 		{
-			$order_id = $this->encryption->decrypt($strRefNr);
+			$order_id = $this->decrypt($strRefNr);
 			$this->load->model('checkout/order');
 			$this->model_checkout_order->confirm($order_id, $this->config->get('paysonagent_order_status_id'));
 
@@ -87,6 +86,46 @@ class ControllerPaymentPaysonagent extends Controller {
 		{
 			$this->redirect($this->url->link('checkout/checkout'));
 		}
-	}	
+	}
+	
+	private function encrypt($value) {
+	    $key = $this->config->get('config_encryption');
+		if (!$key) { 
+			return $value;
+		}
+		
+		$output = '';
+		
+		for ($i = 0; $i < strlen($value); $i++) {
+			$char = substr($value, $i, 1);
+			$keychar = substr($key, ($i % strlen($key)) - 1, 1);
+			$char = chr(ord($char) + ord($keychar));
+			
+			$output .= $char;
+		} 
+		
+        return base64_encode($output); 
+	}
+	
+	private function decrypt($value) {
+	    $key = $this->config->get('config_encryption');
+		if (!$key) { 
+			return $value;
+		}
+		
+		$output = '';
+		
+		$value = base64_decode($value);
+		
+		for ($i = 0; $i < strlen($value); $i++) {
+			$char = substr($value, $i, 1);
+			$keychar = substr($key, ($i % strlen($key)) - 1, 1);
+			$char = chr(ord($char) - ord($keychar));
+			
+			$output .= $char;
+		}
+		
+		return $output;
+	}
 }
 ?>

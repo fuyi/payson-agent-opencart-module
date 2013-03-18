@@ -5,7 +5,8 @@ class ModelPaymentPaysonagent extends Model {
   		// only valid when currency SEK is installed
   		if(!$this->currency->has('SEK')) return false;
 
-		$this->load->language('payment/paysonagent');
+		if(version_compare(VERSION, '1.5.5') >= 0) $this->language->load('payment/paysonagent');
+		else $this->load->language('payment/paysonagent');
 		
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('payson_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 	

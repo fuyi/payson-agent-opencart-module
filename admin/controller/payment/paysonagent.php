@@ -3,7 +3,8 @@ class ControllerPaymentPaysonagent extends Controller {
 	private $error = array(); 
 	 
 	public function index() {
-		$this->load->language('payment/paysonagent');
+		if(version_compare(VERSION, '1.5.5') >= 0) $this->language->load('payment/paysonagent');
+		else $this->load->language('payment/paysonagent');
 		
 		$this->document->setTitle($this->language->get('heading_title'));
 		 

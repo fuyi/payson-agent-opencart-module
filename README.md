@@ -12,10 +12,10 @@ This module is implemented based on payson agent payment process. refer to docum
 
 Features:
 ============================
-1) Payson Guarantee (Paysongaranti) Escrow service support
-2) Multiple payment options:  credit card only, internet bank only, deposit in payson account, and all of them.
-3) English and Swedish supported
-4) Supported Currencies: Swedish Krona (SEK)
+1. Payson Guarantee (Paysongaranti) Escrow service support
+2. Multiple payment options:  credit card only, internet bank only, deposit in payson account, and all of them.
+3. English and Swedish supported
+4. Supported Currencies: Swedish Krona (SEK)
 
 
 Requirements
@@ -31,10 +31,15 @@ Version History
 Tested against opencart version:
 ============================
 1.5.0       ok
+
 1.5.1       ok
+
 1.5.2       ok
+
 1.5.3       ok
+
 1.5.4       ok
+
 1.5.5       ok
 
 Author
@@ -46,33 +51,3 @@ Liscense
 ============================
 Apache License
 Copyright @2013 yvesfu@gmail.com
-
-
-References:
-
-1) payson agent payment documentation: https://www.payson.se/integration/agentintegration (Swedish)
-
-
-
-
-
-
-
-
-
-This is a opencart payment module for payson agent payment integration.
-
-The problem with payson API3 opencart module  is that payer is required to login to payson account in order to finish payment. this is not very convenient for your customer.
-Therefore, payson agent comes to rescue. this module doesn't require payer to login and payment can be made by credit card or internet bank directly, in consequence, your shop can improve conversion rate and your customer is more satisfied with their shopping experience
-
-Features:
-============================
-1) Payson Guarantee (Paysongaranti) Escrow service support
-2) Multiple payment options:  credit card only, internet bank only, deposit in payson account, and all of them. you can choose to offer all or only part of payment methods, which is more flexible.
-3) English and Swedish supported
-4) Supported Currencies: Swedish Krona (SEK)
-
-
-Requirements
-============================
-Currency 'SEK' is required for this payment method to be available, otherwise, it won't show up in the payment options step
